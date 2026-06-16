@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+	--color-background: var(--background);
+	--color-secondary: var(--secondary);
+	--color-border: var(--border);
+	--color-card: var(--card);
+	--color-text: var(--text);
+	--font-lilita: "Lilita One", sans-serif;
+}
+
+body {
+  @apply transition-colors ease-in-out;
+}
+
+:root {
+	--background: #f9f8f0;
+	--secondary: #FFC3C3;
+	--card: #fffded;
+	--text: #7d4f4f;
+}
+
+.dark {
+	--background: #252525;
+	--secondary: #ffadad;
+	--card: #292929;
+	--text: #ffc3c3;
+}
+
+.sidebar-scroll {
+	scrollbar-width: thin;
+	scrollbar-color: var(--background) transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+	width: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+	background: var(--background);
+	border-radius: 99px;
+}
+
+.github-scroll {
+	scrollbar-width: thin;
+	scrollbar-color: var(--border) transparent;
+}
+
+.github-scroll::-webkit-scrollbar {
+	height: 3px;
+}
+
+.github-scroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.github-scroll::-webkit-scrollbar-thumb {
+	background: var(--border);
+	border-radius: 99px;
+}

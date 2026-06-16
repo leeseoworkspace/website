@@ -47,11 +47,15 @@ export default function Option({
 			className={`relative flex gap-2 cursor-pointer transition rounded-xl p-2.5 px-3 z-10 text-lg`}
 		>
 			<motion.div
-				className="flex gap-2 items-center"
+				className="flex flex-row gap-2 items-center"
 				transition={{ type: "spring", stiffness: 500, damping: 30 }}
 			>
-				{icon}
-				<span className="hidden md:inline">{title}</span>
+				<div className="[&>svg]:w-8 [&>svg]:h-8 md:[&>svg]:w-5 md:[&>svg]:h-5">
+					{icon}
+				</div>
+				<span className="md:text-lg">
+					{title}
+				</span>
 			</motion.div>
 		</Link>
 	);

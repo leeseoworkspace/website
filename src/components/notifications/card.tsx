@@ -1,5 +1,5 @@
 "use client";
-import type { Notification } from "@prisma/client";
+import type { Notification } from "@/types/notifications";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
 import { motion } from "framer-motion";

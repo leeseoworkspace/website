@@ -2,11 +2,12 @@ import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 
 interface Props {
-	label: string;
+	label: ReactNode;
 	type: "button" | "submit";
 	icon?: ReactNode;
 	onClick?: () => void;
 	disabled?: boolean;
+	iconDirection?: "left" | "right";
 }
 
 export default function Button({
@@ -15,18 +16,21 @@ export default function Button({
 	icon,
 	onClick,
 	disabled,
+	iconDirection,
 }: Props) {
 	return (
 		<motion.button
-			whileHover={{ scale: disabled ? 1 : 1.03 }}
+			whileHover={{ scale: disabled ? 1 : 1.04 }}
 			whileTap={{ scale: disabled ? 1 : 0.95 }}
 			onClick={onClick}
 			type={type}
 			disabled={disabled}
-			className="disabled:cursor-default disabled:bg-secondary/80 bg-secondary text-text rounded-2xl p-3 px-4 font-bold w-full cursor-pointer transition-colors group flex items-center justify-center gap-2 z-60"
+			className="disabled:bg-secondary/50 disabled:text-text/50 shadow-xl disabled:cursor-not-allowed bg-secondary text-text rounded-2xl p-3 px-4 w-full cursor-pointer transition-colors group flex items-center justify-center gap-2 z-60"
 		>
-			{label}
-			{icon && <div>{icon}</div>}
+			{((icon && iconDirection === "left") ||
+				(icon && !iconDirection)) && <div>{icon}</div>}
+			<span className="hidden md:inline">{label}</span>
+			{icon && iconDirection === "right" && <div>{icon}</div>}
 		</motion.button>
 	);
 }

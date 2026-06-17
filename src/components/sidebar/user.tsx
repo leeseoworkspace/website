@@ -4,6 +4,7 @@ import {
 	IconBell,
 	IconBrandDiscordFilled,
 	IconLogout,
+	IconMenu2,
 	IconMoon,
 	IconSun,
 } from "@tabler/icons-react";
@@ -16,13 +17,15 @@ import { useTheme } from "@/context/theme-context";
 import FlagBr from "../mixed/flags/pt-br";
 import FlagEn from "../mixed/flags/en";
 import { LoadingText } from "../mixed/loading-text";
+import { useMediaQuery } from "@/lib/hooks";
 import { useState } from "react";
 
 export default function User() {
-	const { user, loading: authLoading, logout } = useAuth();
+	const { user, logout } = useAuth();
 	const { t, locale, setLocale } = useI18n();
 	const { theme, toggleTheme } = useTheme();
 	const [redirecting, setRedirecting] = useState(false);
+	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	const handleLogin = () => {
 		setRedirecting(true);
@@ -62,8 +65,8 @@ export default function User() {
 						</div>
 					</Dropdown.Trigger>
 					<Dropdown.Popover
-						className="rounded-2xl p-1"
-						placement="top"
+						placement={isDesktop ? "top" : "top right"}
+						className="rounded-2xl p-1 bg-background border border-background shadow-md min-w-38 md:min-w-43"
 					>
 						<Dropdown.Menu>
 							<Dropdown.Item
@@ -135,54 +138,75 @@ export default function User() {
 	}
 
 	return (
-		<div className="flex flex-col gap-2 md:mb-8">
-			<div className="flex gap-2 w-full">
-				<motion.button
-					whileHover={{ scale: 1.04 }}
-					whileTap={{ scale: 0.95 }}
-					onClick={toggleLocale}
-					className="disabled:cursor-default disabled:bg-secondary/80 md:bg-background text-text rounded-2xl h-14.5 px-4 w-full cursor-pointer transition-colors group flex items-center justify-start gap-2 z-60 md:shadow-xl"
-				>
-					<div className="flex items-center gap-2">
-						<span className="w-5 h-5">
-							{locale !== "pt-BR" ? <FlagBr /> : <FlagEn />}
-						</span>
-						<span className="hidden md:inline">
-							{locale !== "pt-BR" ? "Português" : "English"}
-						</span>
+		<motion.div
+			className="md:mb-8"
+			whileHover={{ scale: 1.04 }}
+			whileTap={{ scale: 0.95 }}
+		>
+			<Dropdown>
+				<Dropdown.Trigger className="w-full">
+					<div className="flex items-center justify-between gap-3 p-4 rounded-2xl md:bg-background md:shadow-xl h-14.5 cursor-pointer">
+						<IconMenu2 size={32} />
 					</div>
-				</motion.button>
-				<motion.button
-					whileHover={{ scale: 1.04 }}
-					whileTap={{ scale: 0.95 }}
-					onClick={toggleTheme}
-					className="disabled:cursor-default disabled:bg-secondary/80 md:bg-background text-text rounded-2xl h-14.5 px-4 w-fit cursor-pointer transition-colors group flex items-center justify-center gap-2 z-60 md:shadow-xl"
+				</Dropdown.Trigger>
+				<Dropdown.Popover
+					placement={isDesktop ? "top" : "bottom"}
+					className="rounded-2xl p-1 bg-background border border-background shadow-md min-w-38 md:min-w-43"
 				>
-					{theme === "light" ? (
-						<IconMoon size={20} />
-					) : (
-						<IconSun size={20} />
-					)}
-				</motion.button>
-			</div>
-			<motion.button
-				whileHover={!redirecting ? { scale: 1.04 } : {}}
-				whileTap={!redirecting ? { scale: 0.95 } : {}}
-				onClick={handleLogin}
-				disabled={redirecting}
-				className="disabled:cursor-default disabled:bg-background/50 md:bg-background text-text rounded-2xl h-14.5 px-4 w-full cursor-pointer transition-colors group flex items-center justify-start gap-2 z-60 md:shadow-xl"
-			>
-				<div className="flex items-center justify-center">
-					<IconBrandDiscordFilled />
-				</div>
-				<span className="hidden md:inline">
-					{redirecting ? (
-						<LoadingText text={t("nav.redirecting")} />
-					) : (
-						t("nav.login")
-					)}
-				</span>
-			</motion.button>
-		</div>
+					<Dropdown.Menu>
+						<Dropdown.Item
+							shouldCloseOnSelect={false}
+							key="locale"
+							className="transition-colors rounded-xl py-2.5"
+							onPress={toggleLocale}
+						>
+							<div className="flex items-center gap-2">
+								<span className="w-5 h-5">
+									{locale !== "pt-BR" ? <FlagBr /> : <FlagEn />}
+								</span>
+								<span>
+									{locale !== "pt-BR" ? "Português" : "English"}
+								</span>
+							</div>
+						</Dropdown.Item>
+						<Dropdown.Item
+							shouldCloseOnSelect={false}
+							key="theme"
+							className="transition-colors rounded-xl py-2.5"
+							onPress={toggleTheme}
+						>
+							<div className="flex items-center gap-2">
+								{theme === "light" ? (
+									<IconMoon size={20} />
+								) : (
+									<IconSun size={20} />
+								)}
+								<span>
+									{theme === "light"
+										? t("nav.theme.dark")
+										: t("nav.theme.light")}
+								</span>
+							</div>
+						</Dropdown.Item>
+						<Separator className="my-0.5" />
+						<Dropdown.Item
+							shouldCloseOnSelect={false}
+							key="login"
+							className="text-primary transition-colors rounded-xl py-2.5"
+							onPress={handleLogin}
+						>
+							<div className="flex items-center gap-2">
+								<IconBrandDiscordFilled size={20} />
+								{redirecting ? (
+									<LoadingText text={t("nav.redirecting")} />
+								) : (
+									t("nav.login")
+								)}
+							</div>
+						</Dropdown.Item>
+					</Dropdown.Menu>
+				</Dropdown.Popover>
+			</Dropdown>
+		</motion.div>
 	);
 }

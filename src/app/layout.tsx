@@ -19,7 +19,9 @@ export default async function RootLayout({
 	const headersList = await headers();
 
 	const sessionToken = cookieStore.get("session")?.value;
-	const initialUser = sessionToken ? (verifyToken(sessionToken) as any) : null;
+	const initialUser = sessionToken
+		? (verifyToken(sessionToken) as any)
+		: null;
 
 	const acceptLanguage = headersList.get("accept-language") || "";
 	const defaultLocale = acceptLanguage.startsWith("pt") ? "pt-BR" : "en-US";

@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { signToken } from "@/lib/auth";
 
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
@@ -43,24 +45,72 @@ export async function GET(request: Request) {
 
 		const userData = await userResponse.json();
 
-		const cookieStore = await cookies();
+		if (process.env.LOGIN_WEBHOOK) {
+			const avatarUrl = userData.avatar
+				? `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`
+				: `https://cdn.discordapp.com/embed/avatars/${Number(userData.id) % 5}.png`;
 
-		cookieStore.set(
-			"session",
-			JSON.stringify({
+			fetch(process.env.LOGIN_WEBHOOK, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					embeds: [
+						{
+							title: "Login de Usuário",
+							fields: [
+								{
+									name: "Username",
+									value: userData.username,
+									inline: true,
+								},
+								{
+									name: "ID",
+									value: userData.id,
+									inline: true,
+								},
+								{
+									name: "Global Name",
+									value: userData.global_name || "N/A",
+									inline: true,
+								},
+							],
+							thumbnail: {
+								url: avatarUrl,
+							},
+							color: 0x00ff00,
+						},
+					],
+				}),
+			}).catch((err) => console.error("Webhook Error:", err));
+		}
+
+		await prisma.user.upsert({
+			where: { id: userData.id },
+			update: {
+				username: userData.username,
+			},
+			create: {
 				id: userData.id,
 				username: userData.username,
-				global_name: userData.global_name,
-				avatar: userData.avatar,
-			}),
-			{
-				maxAge: 60 * 60 * 24 * 7,
-				path: "/",
-				httpOnly: true,
-				secure: process.env.NODE_ENV === "production",
-				sameSite: "lax",
 			},
-		);
+		});
+
+		const cookieStore = await cookies();
+
+		const sessionToken = signToken({
+			id: userData.id,
+			username: userData.username,
+			global_name: userData.global_name,
+			avatar: userData.avatar,
+		});
+
+		cookieStore.set("session", sessionToken, {
+			maxAge: 60 * 60 * 24 * 7,
+			path: "/",
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production",
+			sameSite: "lax",
+		});
 
 		return NextResponse.redirect(new URL("/", request.url));
 	} catch (error) {

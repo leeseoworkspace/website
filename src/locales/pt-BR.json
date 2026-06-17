@@ -1,0 +1,36 @@
+{
+	"nav": {
+		"shop": "Loja",
+		"collection": "Coleção",
+		"notifications": "Notificações",
+		"logout": "Sair",
+		"login": "Fazer Login",
+		"theme": {
+			"light": "Tema Claro",
+			"dark": "Tema Escuro"
+		},
+		"redirecting": "Redirecionando"
+	},
+	"home": {
+		"title": "Loja",
+		"welcome": "Bem-vindo à loja do Leeseo Bot!"
+	},
+	"notifications": {
+		"title": "Notificações",
+		"description": "Você tem {{count}} notificações no total.",
+		"empty": "Não encontrei nenhuma notificação, tente vender algum card na loja.",
+		"rate_limit": "Acho que você foi rápido de mais clicando nesses botões, tente novamente em 1 minuto.",
+		"new": "Nova",
+		"page_info": "Página {{page}} de {{total}}",
+		"card_sold": "{{buyer}} comprou {{cardInfo}} por {{total}} mangos",
+		"someone": "alguém"
+	},
+	"collection": {
+		"title": "Minha Coleção",
+		"description": "Aqui você poderá ver todos os itens que você já adquiriu."
+	},
+	"buttons": {
+		"previous": "Anterior",
+		"next": "Próximo"
+	}
+}

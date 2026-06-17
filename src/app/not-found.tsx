@@ -9,14 +9,14 @@ export default function NotFound() {
 					<h2 className="text-4xl italic">Página não encontrada</h2>
 				</div>
 			</div>
-			
+
 			<p className="text-text/60 max-w-md">
 				A página que você está procurando não existe ou foi movida.
 			</p>
 
-			<Link 
+			<Link
 				href="/"
-				className="bg-secondary bg-[url('/noise.webp')] text-text px-8 py-3 rounded-2xl transition-transform hover:scale-105 active:scale-95 shadow-xl mt-4"
+				className="bg-secondary text-text px-8 py-3 rounded-2xl transition-transform hover:scale-105 active:scale-95 shadow-xl mt-4"
 			>
 				Voltar para o início
 			</Link>

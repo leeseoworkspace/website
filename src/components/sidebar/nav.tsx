@@ -5,20 +5,26 @@ import { usePathname } from "next/navigation";
 import { useRef, useState, useEffect, useMemo } from "react";
 import Option from "./option";
 import { IconBuildingStore, IconCards } from "@tabler/icons-react";
+import { useI18n } from "@/context/i18n-context";
 
 export default function Nav() {
 	const pathname = usePathname();
+	const { t } = useI18n();
 
 	const routes = useMemo(
 		() => [
-			{ href: "/", title: "Loja", icon: <IconBuildingStore size={20} /> },
+			{
+				href: "/",
+				title: t("nav.shop"),
+				icon: <IconBuildingStore size={20} />,
+			},
 			{
 				href: "/collection",
-				title: "Coleção",
+				title: t("nav.collection"),
 				icon: <IconCards size={20} />,
 			},
 		],
-		[],
+		[t],
 	);
 
 	const refs = useRef<(HTMLDivElement | null)[]>([]);
@@ -54,7 +60,7 @@ export default function Nav() {
 				<motion.div
 					layoutId="nav-pill"
 					className="absolute bg-background rounded-2xl z-0"
-					style={{ 
+					style={{
 						top: pillStyle.top,
 						left: pillStyle.left,
 						height: pillStyle.height,

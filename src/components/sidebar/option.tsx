@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { IconArrowUpRight } from "@tabler/icons-react";
 
 interface OptionProps {
-	title: string;
+	title: ReactNode;
 	icon: ReactNode;
 	href: string;
 	link?: boolean;
@@ -53,9 +53,7 @@ export default function Option({
 				<div className="[&>svg]:w-8 [&>svg]:h-8 md:[&>svg]:w-5 md:[&>svg]:h-5">
 					{icon}
 				</div>
-				<span className="md:text-lg">
-					{title}
-				</span>
+				<span className="md:text-lg">{title}</span>
 			</motion.div>
 		</Link>
 	);

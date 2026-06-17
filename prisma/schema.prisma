@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String   @id
+  username    String
+  locale      String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  type      String
+  payload   Json
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  userId    String   @map("user_id")
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}

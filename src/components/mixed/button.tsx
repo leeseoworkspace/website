@@ -25,7 +25,7 @@ export default function Button({
 			onClick={onClick}
 			type={type}
 			disabled={disabled}
-			className="disabled:bg-secondary/50 disabled:text-text/50 shadow-xl disabled:cursor-not-allowed bg-secondary text-text rounded-2xl p-3 px-4 w-full cursor-pointer transition-colors group flex items-center justify-center gap-2 z-60"
+			className="disabled:bg-secondary/50 disabled:text-text/50 shadow-xl disabled:cursor-not-allowed bg-secondary text-defaulttext rounded-2xl p-3 px-4 w-full cursor-pointer transition-colors group flex items-center justify-center gap-2 z-60"
 		>
 			{((icon && iconDirection === "left") ||
 				(icon && !iconDirection)) && <div>{icon}</div>}

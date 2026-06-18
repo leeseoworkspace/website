@@ -7,11 +7,11 @@ datasource db {
 }
 
 model User {
-  id          String   @id
-  username    String
-  locale      String?
-  createdAt   DateTime @default(now()) @map("created_at")
-  
+  id        String   @id
+  username  String
+  locale    String?
+  createdAt DateTime @default(now()) @map("created_at")
+
   notifications Notification[]
 
   @@map("users")
@@ -25,7 +25,23 @@ model Notification {
   createdAt DateTime @default(now()) @map("created_at")
   userId    String   @map("user_id")
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("notifications")
+}
+
+model ShopListing {
+  listing_id      Int      @id @default(autoincrement())
+  price           Int
+  listed_at       DateTime @default(now()) @map("listed_at")
+  seller_id       String   @map("seller_id")
+  seller_username String   @map("seller_username")
+  card_id         String   @map("card_id")
+  short_id        String   @map("short_id")
+  group_name      String   @map("group_name")
+  idol_name       String   @map("idol_name")
+  era_name        String   @map("era_name")
+  rarity          String   @map("rarity")
+
+  @@map("shop_active_listings")
 }

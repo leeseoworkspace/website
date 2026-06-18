@@ -2,7 +2,12 @@ import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL,
+	max: 10,
+	idleTimeoutMillis: 30000,
+	connectionTimeoutMillis: 2000,
+});
 const adapter = new PrismaPg(pool);
 
 const prismaClientSingleton = () => {
@@ -13,8 +18,11 @@ declare global {
 	var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
 }
 
-const prismac = globalThis.prisma ?? prismaClientSingleton();
+const prisma = globalThis.prisma ?? prismaClientSingleton();
 
-export default prismac;
+export { prisma };
+export default prisma;
 
-if (process.env.NODE_ENV !== "production") globalThis.prisma = prismac;
+if (process.env.NODE_ENV !== "production") {
+	globalThis.prisma = prisma;
+}

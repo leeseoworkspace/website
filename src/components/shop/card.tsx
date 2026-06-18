@@ -56,27 +56,29 @@ export const ShopCard = ({ listing, index, lastListingElementRef, listings }: Pr
 }
 
 function CardImage({ src, alt }: { src: string; alt: string }) {
-    const [imgSrc, setImgSrc] = useState(src);
     const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
 
     return (
-        <div className={`relative md:w-54 md:min-h-84 w-40 min-h-62 overflow-hidden ${isLoading ? "bg-secondary" : ""}`}>
-            {isLoading && (
-                <div className="absolute inset-0 animate-pulse bg-secondary rounded-3xl" />
+        <div className={`relative md:w-54 md:min-h-84 w-40 min-h-62 overflow-hidden rounded-3xl ${(isLoading || hasError) ? "bg-secondary" : ""}`}>
+            {isLoading && !hasError && (
+                <div className="absolute inset-0 animate-pulse bg-secondary" />
             )}
 
-            <Image
-                src={imgSrc}
-                alt={alt}
-                fill
-                sizes="(max-width: 768px) 100vw, 192px"
-                className={`object-cover duration-300 select-none ${isLoading ? "opacity-0" : "opacity-100"}`}
-                onLoad={() => setIsLoading(false)}
-                onError={() => {
-                    setImgSrc("/placeholder-card.png");
-                    setIsLoading(false);
-                }}
-            />
+            {!hasError && (
+                <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 192px"
+                    className={`object-cover duration-300 select-none ${isLoading ? "opacity-0" : "opacity-100"}`}
+                    onLoad={() => setIsLoading(false)}
+                    onError={() => {
+                        setHasError(true);
+                        setIsLoading(false);
+                    }}
+                />
+            )}
         </div>
     );
 }

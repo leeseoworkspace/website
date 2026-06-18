@@ -5,9 +5,13 @@
 @theme inline {
 	--color-background: var(--background);
 	--color-secondary: var(--secondary);
+	--color-defaultsecondary: #ffc3c3;
+	--color-defaultbackground: #f9f8f0;
+	--color-defaulttext: #7d4f4f;
 	--color-border: var(--border);
 	--color-card: var(--card);
 	--color-text: var(--text);
+	--color-border: var(--border);
 	--font-lilita: "Lilita One", sans-serif;
 }
 
@@ -16,8 +20,8 @@ body {
 }
 
 ::selection {
-	background-color: var(--secondary);
-	color: var(--text);
+	background-color: var(--selection);
+	color: var(--selection-text);
 }
 
 :root {
@@ -25,6 +29,9 @@ body {
 	--secondary: #ffc3c3;
 	--card: #fffded;
 	--text: #7d4f4f;
+	--selection: #7d4f4f;
+	--selection-text: #f9f8f0;
+	--border: #eeeeee;
 }
 
 .dark {
@@ -32,6 +39,9 @@ body {
 	--secondary: #ffadad;
 	--card: #292929;
 	--text: #ffc3c3;
+	--selection: #ffc3c3;
+	--selection-text: #252525;
+	--border: #2b2b2b;
 }
 
 .sidebar-scroll {

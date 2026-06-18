@@ -14,7 +14,7 @@ export default function Nav() {
 	const routes = useMemo(
 		() => [
 			{
-				href: "/",
+				href: "/shop",
 				title: t("nav.shop"),
 				icon: <IconBuildingStore size={20} />,
 			},
@@ -55,11 +55,11 @@ export default function Nav() {
 	}, [pathname, routes]);
 
 	return (
-		<div className="relative flex flex-row md:flex-col gap-2 md:gap-1 grow items-center md:items-stretch justify-start md:justify-start">
+		<div className="relative flex flex-row md:flex-col gap-2 md:gap-1 grow items-center md:items-stretch justify-start md:justify-start text-defaulttext">
 			{pillStyle && (
 				<motion.div
 					layoutId="nav-pill"
-					className="absolute bg-background rounded-2xl z-0"
+					className="absolute bg-defaultbackground rounded-2xl z-0 shadow-lg"
 					style={{
 						top: pillStyle.top,
 						left: pillStyle.left,

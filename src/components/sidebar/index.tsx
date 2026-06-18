@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Nav from "./nav";
 import User from "./user";
 import { useTheme } from "@/context/theme-context";
@@ -11,11 +12,7 @@ export default function Sidebar() {
 
 	return (
 		<nav className="fixed bottom-3 md:bottom-auto md:left-3 md:inset-y-0 flex z-50 w-full md:w-auto px-3 md:px-0">
-			<section className="bg-secondary bg-[url('/noise.webp')] h-20 md:h-[98vh] w-full md:w-52 flex flex-row md:flex-col items-center md:items-stretch md:pt-6 px-4 md:px-4 z-50 overflow-hidden relative rounded-3xl rounded-b-none md:rounded-none md:rounded-r-none">
-				{theme === "dark" && (
-					<div className="absolute inset-0 bg-black/20 pointer-events-none z-[-1]" />
-				)}
-
+			<section className="bg-defaultsecondary bg-[url('/noise.webp')] h-20 md:h-[98vh] w-full md:w-52 flex flex-row md:flex-col items-center md:items-stretch md:pt-6 px-4 md:px-4 z-50 relative rounded-3xl rounded-b-none md:rounded-none md:rounded-r-none">
 				<div className="hidden md:block z-50 pointer-events-none">
 					<div
 						style={{ backgroundImage: waveUrl }}
@@ -68,23 +65,24 @@ export default function Sidebar() {
 						style={{ backgroundImage: waveUrl }}
 						className="absolute -bottom-13 left-57 w-full h-15 bg-[url('/wave.svg')] bg-repeat-x bg-size-[100%_60px] scale-y-[-1]"
 					/>
-					<div 
+					<div
 						style={{ backgroundImage: waveUrl }}
-						className="absolute -bottom-13 left-76 w-full h-15 bg-[url('/wave.svg')] bg-repeat-x bg-size-[100%_60px] scale-y-[-1]" 
+						className="absolute -bottom-13 left-76 w-full h-15 bg-[url('/wave.svg')] bg-repeat-x bg-size-[100%_60px] scale-y-[-1]"
 					/>
 					<div
 						style={{ backgroundImage: waveUrl }}
-						className="absolute -bottom-13 left-89 w-full h-15 bg-[url('/wave.svg')] bg-repeat-x bg-size-[100%_60px] scale-y-[-1]" 
+						className="absolute -bottom-13 left-89 w-full h-15 bg-[url('/wave.svg')] bg-repeat-x bg-size-[100%_60px] scale-y-[-1]"
 					/>
 				</div>
 
-				<h1 className="hidden md:block text-2xl md:text-4xl md:ml-3 md:mb-6 mr-4 md:mr-0 shrink-0">
+				<Link href="/" className="hidden md:block text-2xl md:text-4xl md:ml-3 md:mb-6 mr-4 md:mr-0 shrink-0 text-defaulttext">
 					Leeseo
-				</h1>
+				</Link>
 				<Nav />
 				<div className="md:mt-auto">
 					<User />
 				</div>
+				<div className="h-3 w-full bg-background top-20 left-0 z-51 rounded-b-xl hidden md:absolute transition-colors"></div>
 			</section>
 		</nav>
 	);

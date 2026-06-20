@@ -9,7 +9,8 @@
 			"light": "Light Theme",
 			"dark": "Dark Theme"
 		},
-		"redirecting": "Redirecting"
+		"redirecting": "Redirecting",
+		"menu": "Menu"
 	},
 	"home": {
 		"title": "Shop",
@@ -25,12 +26,65 @@
 		"card_sold": "{{buyer}} bought {{cardInfo}} for {{total}} mangos",
 		"someone": "someone"
 	},
+	"shop": {
+		"title": "Shop",
+		"currency": "Mangos",
+		"buy": "Buy",
+		"confirm_purchase": "Confirm Purchase",
+		"seller": "Seller",
+		"seller_id": "ID: {{id}}",
+		"listed_at": "Listed {{time}}",
+		"total": "Total",
+		"balance_after": "Your balance after purchase: {{amount}} Mangos",
+		"empty": "No items found in the shop.",
+		"login_with_discord": "Login with Discord",
+		"filters": "Filters",
+		"filter_idol": "Idol",
+		"filter_group": "Group",
+		"filter_seller": "Seller",
+		"filter_seller_placeholder": "Username or Discord ID...",
+		"filter_rarity": "Rarity",
+		"filter_rarity_placeholder": "Click here and select a rarity...",
+		"filter_min_price": "Min Price",
+		"filter_max_price": "Max Price",
+		"filter_order": "Order",
+		"filter_order_price": "Price",
+		"filter_order_price_placeholder": "Click here to select order by price...",
+		"filter_order_rarity": "Rarity",
+		"filter_order_rarity_placeholder": "Click here to select order by rarity...",
+		"filter_order_date": "Listing Date",
+		"filter_order_date_placeholder": "Click here to select order by date...",
+		"filter_show_missing": "Show only what I don't have",
+		"filter_search": "Search",
+		"rarities": {
+			"common": "U1 - Common",
+			"uncommon": "U2 - Uncommon",
+			"rare": "U3 - Rare",
+			"super_rare": "U4 - Epic",
+			"epic": "U5 - Legendary",
+			"legendary": "U6 - Special"
+		},
+		"orders": {
+			"price_asc": "Lowest Price",
+			"price_desc": "Highest Price",
+			"rarity_asc": "Lowest Rarity",
+			"rarity_desc": "Highest Rarity",
+			"date_desc": "Most Recent",
+			"date_asc": "Oldest"
+		},
+		"soldTitle": "🛒 Your card has been sold!",
+		"soldDescription": "**Card:** {{cardShortId}}\n**Idol:** {{idolName}}\n**Group:** {{groupName}}\n\n**Buyer:** {{buyer}} (<@{{buyerId}}>)\n**Quantity:** {{quantity}}x\n**Total received:** {{total}} Mangos",
+		"purchase_success": "Purchase Completed!",
+		"purchase_success_desc": "Your purchase was completed successfully.",
+		"confirming_purchase": "Confirming Purchase"
+	},
 	"collection": {
 		"title": "My Collection",
 		"description": "Here you can see all the items you have already acquired."
 	},
 	"buttons": {
 		"previous": "Previous",
-		"next": "Next"
+		"next": "Next",
+		"close": "Close"
 	}
 }

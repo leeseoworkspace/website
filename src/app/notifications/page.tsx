@@ -1,7 +1,7 @@
 "use client";
 
 import NotificationList from "@/components/notifications/list";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/context/i18n";
 import { useState } from "react";
 
 export default function NotificationsPage() {

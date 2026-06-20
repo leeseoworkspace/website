@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 import ptBR from "../locales/pt-BR.json";
 import enUS from "../locales/en-US.json";
 
-type Locale = "pt-BR" | "en-US";
+export type Locale = "pt-BR" | "en-US";
 
 interface I18nContextType {
 	locale: Locale;

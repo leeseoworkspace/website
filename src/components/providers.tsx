@@ -1,8 +1,8 @@
 "use client";
 
 import { HeroUIProvider } from "@heroui/system";
-import { I18nProvider } from "@/context/i18n-context";
-import { ThemeProvider } from "@/context/theme-context";
+import { I18nProvider, type Locale } from "@/context/i18n";
+import { type Theme, ThemeProvider } from "@/context/theme";
 import type { ReactNode } from "react";
 
 export function Providers({
@@ -11,8 +11,8 @@ export function Providers({
 	theme,
 }: {
 	children: ReactNode;
-	locale: any;
-	theme: any;
+	locale: Locale;
+	theme: Theme;
 }) {
 	return (
 		<HeroUIProvider>

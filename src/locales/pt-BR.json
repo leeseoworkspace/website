@@ -9,7 +9,8 @@
 			"light": "Tema Claro",
 			"dark": "Tema Escuro"
 		},
-		"redirecting": "Redirecionando"
+		"redirecting": "Redirecionando",
+		"menu": "Menu"
 	},
 	"home": {
 		"title": "Loja",
@@ -25,12 +26,65 @@
 		"card_sold": "{{buyer}} comprou {{cardInfo}} por {{total}} mangos",
 		"someone": "alguém"
 	},
+	"shop": {
+		"title": "Loja",
+		"currency": "Mangos",
+		"buy": "Comprar",
+		"confirm_purchase": "Confirmar Compra",
+		"seller": "Vendedor(a)",
+		"seller_id": "ID: {{id}}",
+		"listed_at": "Listado {{time}}",
+		"total": "Total",
+		"balance_after": "Seu saldo após a compra: {{amount}} Mangos",
+		"empty": "Nenhum item encontrado na loja.",
+		"login_with_discord": "Entrar com Discord",
+		"filters": "Filtros",
+		"filter_idol": "Idol",
+		"filter_group": "Grupo",
+		"filter_seller": "Vendedor",
+		"filter_seller_placeholder": "Nome de usuário do ou ID do Discord...",
+		"filter_rarity": "Raridade",
+		"filter_rarity_placeholder": "Clique aqui e selecione uma raridade...",
+		"filter_min_price": "Preço Mínimo",
+		"filter_max_price": "Preço Máximo",
+		"filter_order": "Ordem",
+		"filter_order_price": "Preço",
+		"filter_order_price_placeholder": "Clique aqui para ordenar por preço...",
+		"filter_order_rarity": "Raridade",
+		"filter_order_rarity_placeholder": "Clique aqui para ordenar por raridade...",
+		"filter_order_date": "Data de listagem",
+		"filter_order_date_placeholder": "Clique aqui para ordenar por data...",
+		"filter_show_missing": "Mostrar apenas o que não tenho",
+		"filter_search": "Procurar",
+		"rarities": {
+			"common": "U1 - Comum",
+			"uncommon": "U2 - Incomum",
+			"rare": "U3 - Raro",
+			"super_rare": "U4 - Épico",
+			"epic": "U5 - Lendário",
+			"legendary": "U6 - Especial"
+		},
+		"orders": {
+			"price_asc": "Menor preço",
+			"price_desc": "Maior preço",
+			"rarity_asc": "Menor raridade",
+			"rarity_desc": "Maior raridade",
+			"date_desc": "Mais recente",
+			"date_asc": "Mais antigo"
+		},
+		"soldTitle": "🛒 Seu card foi vendido!",
+		"soldDescription": "**Card:** {{cardShortId}}\n**Idol:** {{idolName}}\n**Group:** {{groupName}}\n\n**Comprador:** {{buyer}} (<@{{buyerId}}>)\n**Quantity:** {{quantity}}x\n**Total recebido:** {{total}} Mangos",
+		"purchase_success": "Compra Concluída!",
+		"purchase_success_desc": "Sua compra foi realizada com sucesso.",
+		"confirming_purchase": "Confirmando Compra"
+	},
 	"collection": {
 		"title": "Minha Coleção",
 		"description": "Aqui você poderá ver todos os itens que você já adquiriu."
 	},
 	"buttons": {
 		"previous": "Anterior",
-		"next": "Próximo"
+		"next": "Próximo",
+		"close": "Fechar"
 	}
 }

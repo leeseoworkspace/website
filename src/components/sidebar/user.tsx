@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth";
 import {
 	IconBell,
 	IconBrandDiscordFilled,
@@ -12,8 +12,8 @@ import { motion } from "framer-motion";
 import { Dropdown, Separator } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useI18n } from "@/context/i18n-context";
-import { useTheme } from "@/context/theme-context";
+import { useI18n } from "@/context/i18n";
+import { useTheme } from "@/context/theme";
 import FlagBr from "../mixed/flags/pt-br";
 import FlagEn from "../mixed/flags/en";
 import { LoadingText } from "../mixed/loading-text";
@@ -41,6 +41,8 @@ export default function User() {
 			? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
 			: `https://cdn.discordapp.com/embed/avatars/${Number(user.id) % 5}.png`;
 
+		const formatter = new Intl.NumberFormat(locale);
+
 		return (
 			<motion.div
 				className="md:mb-8"
@@ -57,10 +59,18 @@ export default function User() {
 								height={42}
 								className="rounded-full"
 							/>
-							<div className="hidden md:flex flex-col overflow-hidden">
+							<div className="hidden md:flex flex-col items-start overflow-hidden">
 								<span className="truncate">
 									{user.global_name || user.username}
 								</span>
+								{user.cash ? (
+									<span className="text-xs text-text/70 font-bold truncate">
+										{formatter.format(user.cash)} {t("shop.currency")}
+									</span>
+								) : (
+									<div className="h-4 animate-pulse w-23 rounded-full bg-secondary">
+									</div>
+								)}
 							</div>
 						</div>
 					</Dropdown.Trigger>
@@ -145,8 +155,9 @@ export default function User() {
 		>
 			<Dropdown>
 				<Dropdown.Trigger className="w-full">
-					<div className="flex items-center justify-between gap-3 p-4 rounded-2xl md:bg-background md:shadow-xl h-14.5 cursor-pointer">
+					<div className="flex items-center gap-3 p-4 rounded-2xl md:bg-background md:shadow-xl h-14.5 cursor-pointer">
 						<IconMenu2 size={32} />
+						{t("nav.menu")}
 					</div>
 				</Dropdown.Trigger>
 				<Dropdown.Popover

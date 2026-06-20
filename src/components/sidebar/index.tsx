@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Nav from "./nav";
 import User from "./user";
-import { useTheme } from "@/context/theme-context";
+import { useTheme } from "@/context/theme";
 
 export default function Sidebar() {
 	const { theme } = useTheme();

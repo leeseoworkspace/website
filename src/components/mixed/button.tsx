@@ -8,6 +8,7 @@ interface Props {
 	onClick?: () => void;
 	disabled?: boolean;
 	iconDirection?: "left" | "right";
+	hideLabel?: boolean;
 }
 
 export default function Button({
@@ -17,6 +18,7 @@ export default function Button({
 	onClick,
 	disabled,
 	iconDirection,
+	hideLabel,
 }: Props) {
 	return (
 		<motion.button
@@ -29,7 +31,7 @@ export default function Button({
 		>
 			{((icon && iconDirection === "left") ||
 				(icon && !iconDirection)) && <div>{icon}</div>}
-			<span className="hidden md:inline">{label}</span>
+			{!hideLabel && <span>{label}</span>}
 			{icon && iconDirection === "right" && <div>{icon}</div>}
 		</motion.button>
 	);

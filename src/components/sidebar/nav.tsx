@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useRef, useState, useEffect, useMemo } from "react";
 import Option from "./option";
 import { IconBuildingStore, IconCards } from "@tabler/icons-react";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/context/i18n";
 
 export default function Nav() {
 	const pathname = usePathname();

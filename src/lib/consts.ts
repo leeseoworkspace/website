@@ -1,0 +1,3 @@
+export const MONITORING_CHANNEL_IDS = {
+	market: "1512297622042574890",
+};

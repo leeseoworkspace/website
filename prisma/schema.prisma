@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -9,10 +10,12 @@ datasource db {
 model User {
   id        String   @id
   username  String
+  cash      Int      @default(0)
   locale    String?
   createdAt DateTime @default(now()) @map("created_at")
 
   notifications Notification[]
+  userCards     UserCard[]
 
   @@map("users")
 }
@@ -31,17 +34,79 @@ model Notification {
 }
 
 model ShopListing {
-  listing_id      Int      @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   price           Int
   listed_at       DateTime @default(now()) @map("listed_at")
   seller_id       String   @map("seller_id")
+  card_id         String   @map("card_id")
+  status          String   @default("active")
+  quantity        Int      @default(1)
+
+  @@map("shop_listings")
+}
+
+view ActiveShopListings {
+  listing_id      Int      @unique
+  price           Int
+  listed_at       DateTime @map("listed_at")
+  seller_id       String   @map("seller_id")
   seller_username String   @map("seller_username")
   card_id         String   @map("card_id")
-  short_id        String   @map("short_id")
-  group_name      String   @map("group_name")
-  idol_name       String   @map("idol_name")
-  era_name        String   @map("era_name")
-  rarity          String   @map("rarity")
+  quantity        Int
+  short_id        String
+  group_name      String
+  idol_name       String
+  era_name        String
+  rarity          String
 
   @@map("shop_active_listings")
+}
+
+model UserCard {
+  id            Int      @id @default(autoincrement())
+  card_id       String   @map("card_id")
+  user_id       String   @map("user_id")
+  quantity      Int      @default(1)
+  obtained_at   DateTime @default(now()) @map("obtained_at")
+  obtained_type String   @map("obtained_type")
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  card Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, card_id])
+  @@map("user_cards")
+}
+
+model Card {
+  id       String @id
+  idol_id  String @map("idol_id")
+  era_id   String @map("era_id")
+  group_id String @map("group_id")
+  rarity   String
+  short_id String @map("short_id")
+
+  idol      Idol       @relation(fields: [idol_id], references: [id])
+  group     Group      @relation(fields: [group_id], references: [id])
+  userCards UserCard[]
+
+  @@map("cards")
+}
+
+model Idol {
+  id       String @id
+  group_id String @map("group_id")
+  name     String
+  cards    Card[]
+
+  @@map("idols")
+}
+
+model Group {
+  id          String @id
+  name        String
+  fandom_name String @map("fandom_name")
+  type        String
+  cards       Card[]
+
+  @@map("groups")
 }

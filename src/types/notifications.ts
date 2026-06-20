@@ -12,5 +12,5 @@ export interface Notification {
     payload: any;
     read: boolean;
     createdAt: Date;
-    userId: string;
+    user_id: string;
 }

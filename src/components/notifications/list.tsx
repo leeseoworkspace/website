@@ -6,7 +6,7 @@ import { NotificationSkeleton } from "@/components/notifications/skeleton";
 import type { Notification } from "@/types/notifications";
 import Button from "../mixed/button";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/context/i18n";
 import { motion } from "framer-motion";
 
 export default function NotificationList({

@@ -4,9 +4,9 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
 import { motion } from "framer-motion";
 import type { CardSoldPayload } from "@/types/notifications";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/context/i18n";
 
-function renderNotifLine(notif: Notification, t: any) {
+function renderNotifLine(notif: Notification, t: (key: string, params?: Record<string, string | number>) => string) {
 	if (notif.type === "card_sold") {
 		const p = (
 			typeof notif.payload === "string"

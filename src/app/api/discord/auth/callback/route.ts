@@ -104,7 +104,7 @@ export async function GET(request: Request) {
 			avatar: userData.avatar,
 		});
 
-		cookieStore.set("session", sessionToken, {
+		cookieStore.set("auth_token", sessionToken, {
 			maxAge: 60 * 60 * 24 * 7,
 			path: "/",
 			httpOnly: true,

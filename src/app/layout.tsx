@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
-import { AuthProvider } from "@/context/auth-context";
+import { AuthProvider } from "@/context/auth";
 import { Providers } from "@/components/providers";
 import Sidebar from "@/components/sidebar";
 import "./globals.css";
@@ -18,7 +18,7 @@ export default async function RootLayout({
 	const cookieStore = await cookies();
 	const headersList = await headers();
 
-	const sessionToken = cookieStore.get("session")?.value;
+	const sessionToken = cookieStore.get("auth_token")?.value;
 	const initialUser = sessionToken
 		? (verifyToken(sessionToken) as any)
 		: null;

@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 	const page = Number(searchParams.get("page")) || 1;
 
 	const cookieStore = await cookies();
-	const sessionCookie = cookieStore.get("session")?.value;
+	const sessionCookie = cookieStore.get("auth_token")?.value;
 
 	let identifier: string;
 	let session: any = null;

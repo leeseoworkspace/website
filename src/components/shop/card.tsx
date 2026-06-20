@@ -3,8 +3,7 @@ import type { ShopListingWithCard } from "@/types/shop";
 import Image from "next/image";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { defaultHover } from "@/lib/animations";
-import { useI18n } from "@/context/i18n-context";
+import { useI18n } from "@/context/i18n";
 import BuyModal from "./modal";
 
 interface Props {
@@ -12,14 +11,15 @@ interface Props {
     index: number;
     lastListingElementRef: (node: HTMLDivElement | null) => void;
     listings: ShopListingWithCard[];
+    onPurchaseSuccess: (remaining: number) => void;
 }
 
-export const ShopCard = ({ listing, index, lastListingElementRef, listings }: Props) => {
-    const { locale } = useI18n();
+export const ShopCard = ({ listing, index, lastListingElementRef, listings, onPurchaseSuccess }: Props) => {
+    const { locale, t } = useI18n();
     const formatter = new Intl.NumberFormat(locale);
 
     const content = (
-        <div className="p-3 bg-background rounded-2xl shadow-xl border border-border flex flex-col items-center h-full">
+        <div className="p-3 bg-card xscustom:w-full rounded-2xl shadow-xl border border-border flex flex-col items-center h-full hover:scale-103 transition-transform">
             <CardImage src={getCardUrl(listing.card_id)} alt={`Card ${listing.card_id}`} />
             <div className="flex flex-col w-full mt-2 px-1 md:min-h-22 min-h-30">
                 <div className="flex items-start w-full md:flex-row flex-col md:items-center">
@@ -28,26 +28,21 @@ export const ShopCard = ({ listing, index, lastListingElementRef, listings }: Pr
                 </div>
                 <div className="flex md:items-center items-start flex-col w-full md:flex-row">
                     <span className="grow flex text-text/90">{listing.group_name}</span>
-                    <span className="text-text/75 text-sm md:text-base truncate max-w-37.5">{listing.era_name}</span>
+                    <span className="text-text/75 text-sm md:text-xs truncate max-w-37.5">{listing.era_name}</span>
                 </div>
             </div>
             <div className="flex-col md:flex-row flex w-full md:gap-0 gap-2 items-center h-full text-lg">
-                <div className="min-w-[60%]">{formatter.format(listing.price)} Mangos</div>
-                <BuyModal listing={listing} locale={locale} />
+                <div className="min-w-[60%]">{formatter.format(listing.price)} {t("shop.currency")}</div>
+                <BuyModal listing={listing} locale={locale} onPurchaseSuccess={onPurchaseSuccess} />
             </div>
         </div>
     );
 
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-                delay: (index % 12) * 0.05,
-                duration: 0.5,
-                type: "spring",
-            }}
-            {...defaultHover}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: (index % 10) * 0.05 }}
             ref={listings.length === index + 1 ? lastListingElementRef : undefined}
         >
             {content}

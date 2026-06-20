@@ -15,6 +15,14 @@
 	--font-lilita: "Lilita One", sans-serif;
 }
 
+@custom-variant mdcustom (@media (width < 1420px));
+@custom-variant mdcustomi (@media (width > 1420px));
+@custom-variant xlcustom (@media (width < 1750px));
+@custom-variant smcustom (@media (width < 1030px));
+@custom-variant xscustom (@media (width < 400px));
+@custom-variant gridcustom (@media (width < 768px));
+@custom-variant lgcustom (@media (width > 2000px));
+
 body {
 	@apply transition-colors ease-in-out;
 }
@@ -46,7 +54,7 @@ body {
 
 .sidebar-scroll {
 	scrollbar-width: thin;
-	scrollbar-color: var(--background) transparent;
+	scrollbar-color: var(--secondary) transparent;
 }
 
 .sidebar-scroll::-webkit-scrollbar {

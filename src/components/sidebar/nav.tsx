@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useLayoutEffect, useEffect, useMemo } from "react";
 import Option from "./option";
 import { IconBuildingStore, IconCards } from "@tabler/icons-react";
 import { useI18n } from "@/context/i18n";
@@ -35,7 +35,10 @@ export default function Nav() {
 		width: number;
 	} | null>(null);
 
-	useEffect(() => {
+	// controla se a pill já apareceu pelo menos uma vez
+	const hasAppearedRef = useRef(false);
+
+	useLayoutEffect(() => {
 		const updatePill = () => {
 			const index = routes.findIndex((r) => r.href === pathname);
 			const el = refs.current[index];
@@ -54,23 +57,28 @@ export default function Nav() {
 		return () => window.removeEventListener("resize", updatePill);
 	}, [pathname, routes]);
 
+	// depois que a pill apareceu pela primeira vez, marca como "já apareceu"
+	useEffect(() => {
+		if (pillStyle) {
+			hasAppearedRef.current = true;
+		}
+	}, [pillStyle]);
+
 	return (
 		<div className="relative flex flex-row md:flex-col gap-2 md:gap-1 grow items-center md:items-stretch justify-start md:justify-start text-defaulttext">
 			{pillStyle && (
 				<motion.div
-					layoutId="nav-pill"
 					className="absolute bg-defaultbackground rounded-2xl z-0 shadow-lg"
-					style={{
+					initial={
+						hasAppearedRef.current
+							? false
+							: { opacity: 0, scale: 0.95 }
+					}
+					animate={{
 						top: pillStyle.top,
 						left: pillStyle.left,
 						height: pillStyle.height,
 						width: pillStyle.width,
-					}}
-					initial={{
-						opacity: 0,
-						scale: 0.95,
-					}}
-					animate={{
 						opacity: 1,
 						scale: 1,
 					}}

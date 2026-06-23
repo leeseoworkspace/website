@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
+	serverExternalPackages: ["@napi-rs/canvas"],
 };
 
 export default nextConfig;

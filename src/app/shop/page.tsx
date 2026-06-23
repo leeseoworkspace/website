@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { ShopSkeleton } from "@/components/shop/skeleton";
 import type { ShopListingWithCard } from "@/types/shop";
 import { ShopCard } from "@/components/shop/card";
@@ -8,16 +8,10 @@ import { useI18n } from "@/context/i18n";
 import { IconFilter, IconX } from "@tabler/icons-react";
 import ShopFilters from "@/components/mixed/filter";
 import { Button, Modal } from "@heroui/react";
+import { useInfiniteList } from "@/hooks/useinfiniteList";
 
 export default function ShopPage() {
 	const { t } = useI18n();
-	const [listings, setListings] = useState<ShopListingWithCard[]>([]);
-	const [page, setPage] = useState(1);
-	const [loading, setLoading] = useState(true);
-	const [hasMore, setHasMore] = useState(true);
-	const loadedPages = useRef(new Set<number>());
-	const fetchingPages = useRef(new Set<number>());
-	const observer = useRef<IntersectionObserver | null>(null);
 
 	const [idol, setIdol] = useState("");
 	const [group, setGroup] = useState("");
@@ -31,88 +25,54 @@ export default function ShopPage() {
 	const [showMissingOnly, setShowMissingOnly] = useState(false);
 	const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
-	const lastListingElementRef = useCallback(
-		(node: HTMLDivElement | null) => {
-			if (loading) return;
-			if (observer.current) observer.current.disconnect();
-
-			observer.current = new IntersectionObserver((entries) => {
-				if (entries[0].isIntersecting && hasMore) {
-					setPage((prevPage) => prevPage + 1);
-				}
-			});
-
-			if (node) observer.current.observe(node);
-		},
-		[loading, hasMore],
-	);
-
-	const fetchListings = async (pageNum: number) => {
-		if (
-			loadedPages.current.has(pageNum) ||
-			fetchingPages.current.has(pageNum)
-		)
-			return;
-
-		fetchingPages.current.add(pageNum);
-		setLoading(true);
-		try {
+	const fetchPage = useCallback(
+		async (pageNum: number) => {
 			const params = new URLSearchParams();
 			params.append("page", String(pageNum));
 
 			if (idol) params.append("idol", idol);
 			if (group) params.append("group", group);
 			if (rarity) params.append("rarity", rarity);
-
 			if (seller) params.append("seller", seller);
-
 			if (minPrice) params.append("minPrice", minPrice);
 			if (maxPrice) params.append("maxPrice", maxPrice);
 			if (showMissingOnly) params.append("showMissingOnly", "true");
-
 			if (orderPrice) params.append("orderPrice", orderPrice);
 			if (orderRarity) params.append("orderRarity", orderRarity);
 			if (orderDate) params.append("orderDate", orderDate);
 
 			const res = await fetch(`/api/shop?${params.toString()}`);
 			const data = await res.json();
+			return data as ShopListingWithCard[];
+		},
+		[
+			idol,
+			group,
+			seller,
+			rarity,
+			minPrice,
+			maxPrice,
+			orderPrice,
+			orderRarity,
+			orderDate,
+			showMissingOnly,
+		],
+	);
 
-			if (data.length === 0) {
-				setHasMore(false);
-			} else {
-				loadedPages.current.add(pageNum);
-				setListings((prev) => {
-					const existingIds = new Set(prev.map((l) => l.listing_id));
-					const newItems = data.filter(
-						(item: ShopListingWithCard) =>
-							!existingIds.has(item.listing_id),
-					);
-					return [...prev, ...newItems];
-				});
-			}
-		} catch (err) {
-			console.error(err);
-		} finally {
-			setLoading(false);
-			fetchingPages.current.delete(pageNum);
-		}
-	};
-
-	useEffect(() => {
-		fetchListings(page);
-	}, [page]);
+	const {
+		items: listings,
+		setItems: setListings,
+		loading,
+		lastElementRef: lastListingElementRef,
+		reset,
+	} = useInfiniteList<ShopListingWithCard>({
+		fetchPage,
+		getId: (listing) => listing.listing_id,
+	});
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
-		setListings([]);
-		setHasMore(true);
-		loadedPages.current.clear();
-		fetchingPages.current.clear();
-		if (page === 1) {
-			fetchListings(1);
-		} else {
-			setPage(1);
-		}
+		reset();
 	};
 
 	return (

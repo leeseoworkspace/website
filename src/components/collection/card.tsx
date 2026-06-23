@@ -1,54 +1,29 @@
 import { getCardUrl } from "@/lib/cards";
-import type { ShopListingWithCard } from "@/types/shop";
 import Image from "next/image";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { useI18n } from "@/context/i18n";
-import BuyModal from "./modal";
+import type { UserCardStructure } from "@/types/cards";
 
 interface Props {
-    listing: ShopListingWithCard;
-    index: number;
-    lastListingElementRef: (node: HTMLDivElement | null) => void;
-    listings: ShopListingWithCard[];
-    onPurchaseSuccess: (remaining: number) => void;
+    card: UserCardStructure;
 }
 
-export const ShopCard = ({ listing, index, lastListingElementRef, listings, onPurchaseSuccess }: Props) => {
-    const { locale, t } = useI18n();
-    const formatter = new Intl.NumberFormat(locale);
-
-    const content = (
+export const UserCard = ({ card }: Props) => {
+    return (
         <div className="p-3 bg-card xscustom:w-full rounded-2xl shadow-xl border border-border flex flex-col items-center h-full hover:scale-103 transition-transform">
-            <CardImage src={getCardUrl(listing.card_id)} alt={`Card ${listing.card_id}`} />
+            <CardImage src={getCardUrl(card.card_id)} alt={`Card ${card.card_id}`} />
             <div className="flex flex-col w-full mt-2 px-1 md:min-h-22 min-h-30">
                 <div className="flex items-start w-full md:flex-row flex-col md:items-center">
-                    <span className="text-xl grow flex">{listing.idol_name}</span>
-                    <span className="text-xs md:text-base">{listing.short_id}</span>
+                    <span className="text-xl grow flex">{card.card.idol.name}</span>
+                    <span className="text-xs md:text-base">{card.card.short_id}</span>
                 </div>
                 <div className="flex md:items-center items-start flex-col w-full md:flex-row">
-                    <span className="grow flex text-text/90">{listing.group_name}</span>
-                    <span className="text-text/75 text-sm md:text-xs truncate max-w-37.5">{listing.era_name}</span>
+                    <span className="grow flex text-text/90">{card.card.group.name}</span>
+                    <span className="text-text/75 text-sm md:text-xs truncate max-w-37.5">{card.card.era.name}</span>
                 </div>
-            </div>
-            <div className="flex-col md:flex-row flex w-full md:gap-0 gap-2 items-center h-full text-lg">
-                <div className="min-w-[60%]">{formatter.format(listing.price)} {t("shop.currency")}</div>
-                <BuyModal listing={listing} locale={locale} onPurchaseSuccess={onPurchaseSuccess} />
             </div>
         </div>
     );
-
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: (index % 10) * 0.05 }}
-            ref={listings.length === index + 1 ? lastListingElementRef : undefined}
-        >
-            {content}
-        </motion.div>
-    );
-}
+};
 
 export function CardImage({ src, alt, modal }: { src: string; alt: string; modal?: boolean }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -77,4 +52,3 @@ export function CardImage({ src, alt, modal }: { src: string; alt: string; modal
         </div>
     );
 }
-

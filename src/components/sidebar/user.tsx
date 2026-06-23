@@ -64,7 +64,7 @@ export default function User() {
 									{user.global_name || user.username}
 								</span>
 								{user.cash ? (
-									<span className="text-xs text-text/70 font-bold truncate">
+									<span className="text-xs text-text/70 truncate">
 										{formatter.format(user.cash)} {t("shop.currency")}
 									</span>
 								) : (

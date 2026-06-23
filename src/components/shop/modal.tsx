@@ -10,6 +10,7 @@ import { useState } from "react";
 import { LoadingText } from "../mixed/loading-text";
 import { useRouter } from "next/navigation";
 import { IconCheck } from "@tabler/icons-react";
+import { CardImage } from "./card";
 
 function BuyModal({ listing, locale, onPurchaseSuccess }: { listing: ShopListingWithCard; locale: string; onPurchaseSuccess: (remaining: number) => void }) {
     const { t } = useI18n();
@@ -112,14 +113,7 @@ function BuyModal({ listing, locale, onPurchaseSuccess }: { listing: ShopListing
                                     ) : (
                                         <div className="flex md:gap-4 flex-col md:flex-row">
                                             <div className="flex gap-4 md:mr-1 mr-2">
-                                                <div className="relative w-28 h-44 md:w-45 md:h-70 overflow-hidden">
-                                                    <Image
-                                                        src={getCardUrl(listing.card_id)}
-                                                        alt={listing.idol_name}
-                                                        fill
-                                                        className="object-cover"
-                                                    />
-                                                </div>
+                                                <CardImage modal src={getCardUrl(listing.card_id)} alt={`Card ${listing.card_id}`} />
                                                 <div className="flex flex-col md:hidden">
                                                     <div className="flex flex-col w-full px-1 mb-3 text-text">
                                                         <div className="flex items-start w-full md:flex-row flex-col md:items-center">

@@ -1,65 +1,29 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { useI18n } from "@/context/i18n";
-import { getCardUrl } from "@/lib/cards";
-import Image from "next/image";
 import { motion } from "framer-motion";
-
-interface UserCard {
-    id: number;
-    card_id: string;
-    quantity: number;
-    card: {
-        short_id: string;
-        rarity: string;
-        idol: { name: string };
-        group: { name: string };
-    };
-}
+import { UserCard } from "@/components/collection/card";
+import type { UserCardStructure } from "@/types/cards";
+import { useInfiniteList } from "@/hooks/useinfiniteList";
 
 export default function CollectionPage() {
     const { t } = useI18n();
-    const [cards, setCards] = useState<UserCard[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
-    const observer = useRef<IntersectionObserver | null>(null);
 
-    const fetchCollection = useCallback(async (pageNum: number) => {
-        try {
-            const res = await fetch(`/api/user/collection?page=${pageNum}`);
-            const data = await res.json();
-
-            if (data.cards) {
-                setCards(prev => pageNum === 1 ? data.cards : [...prev, ...data.cards]);
-                setHasMore(data.cards.length === 30);
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
+    const fetchPage = useCallback(async (pageNum: number) => {
+        const res = await fetch(`/api/user/collection?page=${pageNum}`);
+        const data = await res.json();
+        return data.cards ?? [];
     }, []);
 
-    useEffect(() => {
-        fetchCollection(1);
-    }, [fetchCollection]);
-
-    const lastCardRef = useCallback((node: HTMLDivElement | null) => {
-        if (loading) return;
-        if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                setPage(prev => {
-                    const next = prev + 1;
-                    fetchCollection(next);
-                    return next;
-                });
-            }
-        });
-        if (node) observer.current.observe(node);
-    }, [loading, hasMore, fetchCollection]);
+    const {
+        items: cards,
+        loading,
+        lastElementRef: lastCardRef,
+    } = useInfiniteList<UserCardStructure>({
+        fetchPage,
+        getId: (card) => card.id,
+    });
 
     return (
         <div className="flex flex-col gap-4 p-4 md:p-8 pb-32">
@@ -81,31 +45,8 @@ export default function CollectionPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: (index % 10) * 0.05 }}
-                            className="bg-background border border-border rounded-2xl p-2 flex flex-col gap-2 shadow-sm"
                         >
-                            <div className="relative aspect-2/3 w-full overflow-hidden rounded-xl bg-secondary transition-colors">
-                                <Image
-                                    src={getCardUrl(userCard.card_id)}
-                                    alt={userCard.card.idol.name}
-                                    fill
-                                    sizes="(max-width: 768px) 50vw, 200px"
-                                    className="object-cover"
-                                />
-                                {userCard.quantity > 1 && (
-                                    <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-white text-xs px-2 py-1 rounded-full border border-white/20">
-                                        x{userCard.quantity}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="px-1 py-1">
-                                <div className="flex justify-between items-start">
-                                    <span className="font-medium truncate text-sm md:text-base">{userCard.card.idol.name}</span>
-                                    <span className="text-[10px] md:text-xs text-text/50">{userCard.card.short_id}</span>
-                                </div>
-                                <div className="text-[10px] md:text-xs text-text/60 truncate">
-                                    {userCard.card.group.name}
-                                </div>
-                            </div>
+                            <UserCard card={userCard} />
                         </motion.div>
                     ))}
                 </div>

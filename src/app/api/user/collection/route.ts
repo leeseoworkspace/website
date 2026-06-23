@@ -22,7 +22,8 @@ export async function GET(request: Request) {
                 card: {
                     include: {
                         idol: true,
-                        group: true
+                        group: true,
+                        era: true
                     }
                 }
             },

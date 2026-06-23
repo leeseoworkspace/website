@@ -3,7 +3,7 @@
 export function ShopSkeleton({ count = 12, itemsOnly = false }: { count?: number, itemsOnly?: boolean }) {
 	const items = [...Array(count)].map((_, i) => (
 		<div key={i} className="p-3 bg-background rounded-2xl shadow-xl border border-border flex flex-col items-center">
-			<div className="md:w-54 md:min-h-84 w-36 min-h-62 bg-secondary rounded-3xl animate-pulse">
+			<div className="md:w-55 md:min-h-84 w-40 min-h-62 bg-secondary rounded-3xl animate-pulse">
 			</div>
 			<div className="flex flex-col w-full mt-2 px-1 md:min-h-20 min-h-30">
 				<div className="flex flex-col md:items-center w-full md:flex-row items-start gap-1">

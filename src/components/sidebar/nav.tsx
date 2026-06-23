@@ -35,13 +35,13 @@ export default function Nav() {
 		width: number;
 	} | null>(null);
 
-	// controla se a pill já apareceu pelo menos uma vez
 	const hasAppearedRef = useRef(false);
 
 	useLayoutEffect(() => {
 		const updatePill = () => {
 			const index = routes.findIndex((r) => r.href === pathname);
 			const el = refs.current[index];
+
 			if (el) {
 				setPillStyle({
 					top: el.offsetTop,
@@ -54,10 +54,10 @@ export default function Nav() {
 
 		updatePill();
 		window.addEventListener("resize", updatePill);
+
 		return () => window.removeEventListener("resize", updatePill);
 	}, [pathname, routes]);
 
-	// depois que a pill apareceu pela primeira vez, marca como "já apareceu"
 	useEffect(() => {
 		if (pillStyle) {
 			hasAppearedRef.current = true;

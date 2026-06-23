@@ -1,112 +1,123 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["views"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["views"]
 }
 
 datasource db {
-  provider = "postgresql"
+    provider = "postgresql"
 }
 
 model User {
-  id        String   @id
-  username  String
-  cash      Int      @default(0)
-  locale    String?
-  createdAt DateTime @default(now()) @map("created_at")
+    id        String   @id
+    username  String
+    cash      Int      @default(0)
+    locale    String?
+    createdAt DateTime @default(now()) @map("created_at")
 
-  notifications Notification[]
-  userCards     UserCard[]
+    notifications Notification[]
+    userCards     UserCard[]
 
-  @@map("users")
+    @@map("users")
 }
 
 model Notification {
-  id        Int      @id @default(autoincrement())
-  type      String
-  payload   Json
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now()) @map("created_at")
-  userId    String   @map("user_id")
+    id        Int      @id @default(autoincrement())
+    type      String
+    payload   Json
+    read      Boolean  @default(false)
+    createdAt DateTime @default(now()) @map("created_at")
+    userId    String   @map("user_id")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("notifications")
+    @@map("notifications")
 }
 
 model ShopListing {
-  id              Int      @id @default(autoincrement())
-  price           Int
-  listed_at       DateTime @default(now()) @map("listed_at")
-  seller_id       String   @map("seller_id")
-  card_id         String   @map("card_id")
-  status          String   @default("active")
-  quantity        Int      @default(1)
+    id        Int      @id @default(autoincrement())
+    price     Int
+    listed_at DateTime @default(now()) @map("listed_at")
+    seller_id String   @map("seller_id")
+    card_id   String   @map("card_id")
+    status    String   @default("active")
+    quantity  Int      @default(1)
 
-  @@map("shop_listings")
+    @@map("shop_listings")
 }
 
 view ActiveShopListings {
-  listing_id      Int      @unique
-  price           Int
-  listed_at       DateTime @map("listed_at")
-  seller_id       String   @map("seller_id")
-  seller_username String   @map("seller_username")
-  card_id         String   @map("card_id")
-  quantity        Int
-  short_id        String
-  group_name      String
-  idol_name       String
-  era_name        String
-  rarity          String
+    listing_id      Int      @unique
+    price           Int
+    listed_at       DateTime @map("listed_at")
+    seller_id       String   @map("seller_id")
+    seller_username String   @map("seller_username")
+    card_id         String   @map("card_id")
+    quantity        Int
+    short_id        String
+    group_name      String
+    idol_name       String
+    era_name        String
+    rarity          String
 
-  @@map("shop_active_listings")
+    @@map("shop_active_listings")
 }
 
 model UserCard {
-  id            Int      @id @default(autoincrement())
-  card_id       String   @map("card_id")
-  user_id       String   @map("user_id")
-  quantity      Int      @default(1)
-  obtained_at   DateTime @default(now()) @map("obtained_at")
-  obtained_type String   @map("obtained_type")
+    id            Int      @id @default(autoincrement())
+    card_id       String   @map("card_id")
+    user_id       String   @map("user_id")
+    quantity      Int      @default(1)
+    obtained_at   DateTime @default(now()) @map("obtained_at")
+    obtained_type String   @map("obtained_type")
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  card Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    card Card @relation(fields: [card_id], references: [id], onDelete: Cascade)
 
-  @@unique([user_id, card_id])
-  @@map("user_cards")
+    @@unique([user_id, card_id])
+    @@map("user_cards")
 }
 
 model Card {
-  id       String @id
-  idol_id  String @map("idol_id")
-  era_id   String @map("era_id")
-  group_id String @map("group_id")
-  rarity   String
-  short_id String @map("short_id")
+    id       String @id
+    idol_id  String @map("idol_id")
+    era_id   String @map("era_id")
+    group_id String @map("group_id")
+    rarity   String
+    short_id String @map("short_id")
 
-  idol      Idol       @relation(fields: [idol_id], references: [id])
-  group     Group      @relation(fields: [group_id], references: [id])
-  userCards UserCard[]
+    idol      Idol       @relation(fields: [idol_id], references: [id])
+    group     Group      @relation(fields: [group_id], references: [id])
+    era       Era        @relation(fields: [era_id], references: [id])
+    userCards UserCard[]
 
-  @@map("cards")
+    @@map("cards")
 }
 
 model Idol {
-  id       String @id
-  group_id String @map("group_id")
-  name     String
-  cards    Card[]
+    id       String @id
+    group_id String @map("group_id")
+    name     String
+    cards    Card[]
 
-  @@map("idols")
+    @@map("idols")
 }
 
 model Group {
-  id          String @id
-  name        String
-  fandom_name String @map("fandom_name")
-  type        String
-  cards       Card[]
+    id          String @id
+    name        String
+    fandom_name String @map("fandom_name")
+    type        String
+    cards       Card[]
 
-  @@map("groups")
+    @@map("groups")
+}
+
+model Era {
+    id        String  @id
+    group_id  String  @map("group_id")
+    name      String
+    droppable Boolean
+    cards     Card[]
+
+    @@map("eras")
 }

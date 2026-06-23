@@ -14,7 +14,6 @@
 		"@heroui/styles": "^3.2.0",
 		"@heroui/system": "^2.4.28",
 		"@napi-rs/canvas": "^1.0.0",
-		"@napi-rs/canvas-win32-x64-msvc": "^1.0.0",
 		"@prisma/adapter-pg": "^7.8.0",
 		"@prisma/client": "^7.8.0",
 		"@tabler/icons-react": "^3.44.0",
